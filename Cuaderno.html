@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CUADERNO DE CAMPO</title>
+    <script src="https://unpkg.com/html2canvas@1.0.0/dist/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* Cambiamos el fondo a un degradado blanco */
+            background: linear-gradient(to right, #fff, #ddd);
+            color: black;
+            /* Cambiamos el color del texto a negro para que sea legible */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 800px;
+            /* Eliminamos el fondo blanco de la tabla */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2.5em; /* Aumentamos el tamaño de la fuente */
+            margin-bottom: 1em;
+            color: #1abc9c; /* Cambiamos el color del texto a un verde azulado */
+            text-shadow: 2px 2px 4px #000000; /* Agregamos una sombra al texto */
+        }
+
+        /* El resto de tu código CSS... */
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">CUADERNO DE CAMPO</div>
+        <div class="content">
+            <div>
+                <h2 class="titulo">PROYECTO DE APRENDIZAJE: 'Conociendo y explorando nuestro cuerpo'</h2>
+                <h3 class="titulo">COMPETENCIA: Construye su identidad</h3>
+            </div>
+            <div>
+                <ul class="list">
+                    <li class="list-item">Menciona sus características físicas, cualidades, gustos personales, gestos y
+                        preferencias.</li>
+                    <li class="list-item">Comenta a quién se le parece de su familia o parientes, como era de bebé y
+                        como es ahora.</li>
+                    <li class="list-item">Realiza acciones de cuidado personal de manera autónoma y explica porqué las
+                        realiza.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Contenedor de reporte -->
+        
+        <div class="report-container">
+            <h2>Reporte</h2>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Nombre del infante</th>
+                    <th>Descripción de evidencias de aprendizaje</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            let numChildren = prompt("¿Con cuántos niños trabajarás?");
+            numChildren = parseInt(numChildren);
+
+            // Si el número ingresado no es válido, se establece un valor predeterminado de 10
+            if (isNaN(numChildren) || numChildren <= 0) {
+                numChildren = 10;
+            }
+
+            let table = document.querySelector("table");
+
+            for (let i = 1; i <= numChildren; i++) {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+               
+
+                cell1.textContent = i;
+                cell2.innerHTML = "<input type='text'>";
+                cell3.innerHTML = "<textarea rows='4' cols='50'></textarea>";
+                
+            }
+        }
+
+      
+
+      document.addEventListener('DOMContentLoaded', (event) => {
+          let listItems = document.querySelectorAll('.subtitulo');
+
+          listItems.forEach((item) => {
+              item.addEventListener('click', (event) => {
+                  let newText = prompt('Ingresa el nuevo titulo para este elemento');
+                  if (newText !== null) {
+                      event.target.textContent = newText;
+                  }
+              });
+          });
+      
+      });
+
+      document.addEventListener('DOMContentLoaded', (event) => {
+          let listItems = document.querySelectorAll('.list-item');
+
+          listItems.forEach((item) => {
+              item.addEventListener('click', (event) => {
+                  let newText = prompt('Ingresa el nuevo texto para este caracteristicas');
+                  if (newText !== null) {
+                      event.target.textContent = newText;
+                  }
+              });
+          });
+      
+      });
+
+
+
+
+    </script>
+</body>
+
+</html>
