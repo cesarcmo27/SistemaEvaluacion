@@ -28,16 +28,45 @@
 
         .title {
             text-align: center;
-            font-size: 2.5em; /* Aumentamos el tamaño de la fuente */
+            font-size: 2.5em;
+            /* Aumentamos el tamaño de la fuente */
             margin-bottom: 1em;
-            color: #1abc9c; /* Cambiamos el color del texto a un verde azulado */
-            text-shadow: 2px 2px 4px #000000; /* Agregamos una sombra al texto */
+            color: #1abc9c;
+            /* Cambiamos el color del texto a un verde azulado */
+            text-shadow: 2px 2px 4px #000000;
+            /* Agregamos una sombra al texto */
         }
 
         /* El resto de tu código CSS... */
+        /* Estilos para el botón */
+        .download-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0074D9;
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Animación de descarga */
+        .download-icon {
+            display: inline-block;
+            margin-right: 10px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
-
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -60,9 +89,13 @@
             </div>
         </div>
         <!-- Contenedor de reporte -->
-        
+
         <div class="report-container">
             <h2>Reporte</h2>
+            <div><button id="excelbutton" class="download-button">
+                <span class="download-icon">⬇️</span>Descargar Excel
+            </button></div>
+            <br>
             <table>
                 <tr>
                     <th>No</th>
@@ -75,7 +108,7 @@
     </div>
 
     <script>
-        window.onload = function() {
+        window.onload = function () {
             let numChildren = prompt("¿Con cuántos niños trabajarás?");
             numChildren = parseInt(numChildren);
 
@@ -85,50 +118,77 @@
             }
 
             let table = document.querySelector("table");
-
+            let data = [];
             for (let i = 1; i <= numChildren; i++) {
                 let row = table.insertRow(-1);
                 let cell1 = row.insertCell(0);
                 let cell2 = row.insertCell(1);
                 let cell3 = row.insertCell(2);
-               
+
 
                 cell1.textContent = i;
                 cell2.innerHTML = "<input type='text'>";
                 cell3.innerHTML = "<textarea rows='4' cols='50'></textarea>";
-                
+
             }
+
+            let exportBtn = document.getElementById("excelbutton");
+
+            exportBtn.addEventListener("click", function () {
+                let rowData = [];
+                let rows = table.querySelectorAll("tr");
+
+                for (let i = 1; i < rows.length; i++) {
+                    let cells = rows[i].querySelectorAll("td");
+                    let nombre = cells[1].querySelector("input").value;
+                    let descripcion = cells[2].querySelector("textarea").value;
+
+                    rowData.push({
+                        "No": i,
+                        "Nombre del infante": nombre,
+                        "Descripción de evidencias de aprendizaje": descripcion
+                    });
+                }
+
+                // Crear el libro de Excel y la hoja de datos
+                let workbook = XLSX.utils.book_new();
+                let worksheet = XLSX.utils.json_to_sheet(rowData);
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
+
+                // Descargar el archivo Excel
+                XLSX.writeFile(workbook, 'TablaDeDatos.xlsx');
+            });
         }
 
-      
 
-      document.addEventListener('DOMContentLoaded', (event) => {
-          let listItems = document.querySelectorAll('.subtitulo');
 
-          listItems.forEach((item) => {
-              item.addEventListener('click', (event) => {
-                  let newText = prompt('Ingresa el nuevo titulo para este elemento');
-                  if (newText !== null) {
-                      event.target.textContent = newText;
-                  }
-              });
-          });
-      
-      });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let listItems = document.querySelectorAll('.subtitulo');
 
-      document.addEventListener('DOMContentLoaded', (event) => {
-          let listItems = document.querySelectorAll('.list-item');
+            listItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    let newText = prompt('Ingresa el nuevo titulo para este elemento');
+                    if (newText !== null) {
+                        event.target.textContent = newText;
+                    }
+                });
+            });
 
-          listItems.forEach((item) => {
-              item.addEventListener('click', (event) => {
-                  let newText = prompt('Ingresa el nuevo texto para este caracteristicas');
-                  if (newText !== null) {
-                      event.target.textContent = newText;
-                  }
-              });
-          });
-      
-      });
+        });
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let listItems = document.querySelectorAll('.list-item');
+
+            listItems.forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    let newText = prompt('Ingresa el nuevo texto para este caracteristicas');
+                    if (newText !== null) {
+                        event.target.textContent = newText;
+                    }
+                });
+            });
+
+        });
 
 
 
