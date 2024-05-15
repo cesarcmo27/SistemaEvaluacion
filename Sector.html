@@ -1,39 +1,44 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>JUEGO POR SECTORES</title>
-    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+
+
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* Cambiamos el fondo a un degradado blanco */
             background: linear-gradient(to right, #fff, #ddd);
             color: black;
+            /* Cambiamos el color del texto a negro para que sea legible */
+        }
+
+        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
+            margin: 0 auto;
+            max-width: 800px;
+            /* Eliminamos el fondo blanco de la tabla */
             padding: 20px;
             border-radius: 10px;
         }
 
-        .titulo {
+        .title {
             text-align: center;
             font-size: 2.5em;
+            /* Aumentamos el tamaño de la fuente */
             margin-bottom: 1em;
             color: #1abc9c;
+            /* Cambiamos el color del texto a un verde azulado */
             text-shadow: 2px 2px 4px #000000;
-            
+            /* Agregamos una sombra al texto */
         }
 
+        /* El resto de tu código CSS... */
+        /* Estilos para el botón */
         .download-button {
             display: inline-block;
             padding: 10px 20px;
@@ -49,6 +54,7 @@
             background-color: #0056b3;
         }
 
+        /* Animación de descarga */
         .download-icon {
             display: inline-block;
             margin-right: 10px;
@@ -69,16 +75,8 @@
             background-color: #42344d;
             color: #FFF;
             padding: 10px;
+            /* Añade un poco de espacio alrededor del texto */
         }
-
-        /* Para hacer la tabla responsive */
-        @media screen and (max-width: 600px) {
-            table {
-                width: 100%;
-                display: block;
-            }
-        }
-
         .date-picker {
             display: inline-block;
             background: #f0f0f0;
@@ -89,111 +87,120 @@
             font-size: 1em;
            
         }
-    </style>
 
+    </style>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
-    <div class="titulo">REGISTRO DEL JUEGO LIBRE EN LOS SECTORES</div>
-   
-    <div >
-        <div>
-            <label for="date">Fecha:</label>
-            <input class="date-picker" type="date" id="date" name="date">
-        </div>
-        <div>
+    <div class="container">
+        <div class="title">REGISTRO DEL JUEGO LIBRE EN LOS SECTORES</div>
+        <div class="content">
+            <div>
 
+            </div>
+            <div>
+                <label for="date">Fecha:</label>
+                <input class="date-picker" type="date" id="date" name="date">
+
+            </div>
+        </div>
+        <!-- Contenedor de reporte -->
+
+        <div class="report-container">
+            <h2>Reporte</h2>
+            <div><button id="excelbutton" class="download-button">
+                    <span class="download-icon">⬇️</span>Descargar Excel
+                </button></div>
+            <br>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Nombre del Niño(a)</th>
+                    <th>A Que Jugo?</th>
+                    <th>Con Quien Jugo?</th>
+                    <th>Actitud del Niño(a)</th>
+
+                </tr>
+            </table>
         </div>
     </div>
-    <div class="report-container">
-        <h2>Reporte</h2>
-        <div><button id="excelbutton" class="download-button">
-                <span class="download-icon">⬇️</span>Descargar Excel
-            </button></div>
-        <br>
-        <table>
-            <tr>
-                <th>No</th>
-                <th>Nombre del Niño(a)</th>
-                <th>A Que Jugo?</th>
-                <th>Con Quien Jugo?</th>
-                <th>Actitud del Niño(a)</th>
-            </tr>
-        </table>
-    </div>
+
+    <script>
+        window.onload = function () {
+            let numChildren = prompt("¿Con cuántos niños trabajarás?");
+            numChildren = parseInt(numChildren);
+
+            // Si el número ingresado no es válido, se establece un valor predeterminado de 10
+            if (isNaN(numChildren) || numChildren <= 0) {
+                numChildren = 10;
+            }
+
+            let table = document.querySelector("table");
+            let data = [];
+            for (let i = 1; i <= numChildren; i++) {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+
+
+                cell1.textContent = i;
+                cell2.innerHTML = "<input type='text'>";
+                cell3.innerHTML = "<input type='text'>";
+                cell4.innerHTML = "<input type='text'>";
+                cell5.innerHTML = "<textarea rows='4' cols='50'></textarea>";
+
+
+            }
+
+            let exportBtn = document.getElementById("excelbutton");
+
+            exportBtn.addEventListener("click", function () {
+                let rowData = [];
+                let rows = table.querySelectorAll("tr");
+                let selectedDate = document.getElementById('date').value;
+                if (!selectedDate) {
+                    alert('Por favor, selecciona una fecha válida antes de descargar.');
+                    return;
+                }
+                // Formatear la fecha para que sea compatible con los nombres de archivo
+                selectedDate = selectedDate.split('-').join('');
+
+                // Crear el nombre del archivo con la fecha seleccionada
+                let filename = 'TablaJuegoSectores-' + selectedDate + '.xlsx';
+
+                for (let i = 1; i < rows.length; i++) {
+                    let cells = rows[i].querySelectorAll("td");
+                    let nombre = cells[1].querySelector("input").value;
+                    let jugo = cells[2].querySelector("input").value;
+                    let conQuienJugo = cells[3].querySelector("input").value;
+                    let descripcion = cells[4].querySelector("textarea").value;
+
+                    rowData.push({
+                        "No": i,
+                        "Nombre del Niño(a)": nombre,
+                        "A Que Jugo": jugo,
+                        "Con quien Jugo": conQuienJugo,
+                        "Descripción de evidencias de aprendizaje": descripcion
+                    });
+                }
+
+                // Crear el libro de Excel y la hoja de datos
+                let workbook = XLSX.utils.book_new();
+                let worksheet = XLSX.utils.json_to_sheet(rowData);
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
+
+                // Descargar el archivo Excel
+                XLSX.writeFile(workbook, filename);
+            });
+        }
+
+
+
+    </script>
 </body>
-
-<script>
-    window.onload = function () {
-        let numChildren = prompt("¿Con cuántos niños trabajarás?");
-        numChildren = parseInt(numChildren);
-
-        // Si el número ingresado no es válido, se establece un valor predeterminado de 10
-        if (isNaN(numChildren) || numChildren <= 0) {
-            numChildren = 10;
-        }
-
-        let table = document.querySelector("table");
-        let data = [];
-        for (let i = 1; i <= numChildren; i++) {
-            let row = table.insertRow(-1);
-            let cell1 = row.insertCell(0);
-            let cell2 = row.insertCell(1);
-            let cell3 = row.insertCell(2);
-            let cell4 = row.insertCell(3);
-            let cell5 = row.insertCell(4);
-
-
-            cell1.textContent = i;
-            cell2.innerHTML = "<input type='text'>";
-            cell3.innerHTML = "<input type='text'>";
-            cell4.innerHTML = "<input type='text'>";
-            cell5.innerHTML = "<textarea rows='4' cols='50'></textarea>";
-
-
-        }
-
-        let exportBtn = document.getElementById("excelbutton");
-
-        exportBtn.addEventListener("click", function () {
-            let rowData = [];
-            let rows = table.querySelectorAll("tr");
-            let selectedDate = document.getElementById('date').value;
-            if (!selectedDate) {
-                alert('Por favor, selecciona una fecha válida antes de descargar.');
-                return;
-            }
-            // Formatear la fecha para que sea compatible con los nombres de archivo
-            selectedDate = selectedDate.split('-').join('');
-
-            // Crear el nombre del archivo con la fecha seleccionada
-            let filename = 'TablaJuegoSectores-' + selectedDate + '.xlsx';
-
-            for (let i = 1; i < rows.length; i++) {
-                let cells = rows[i].querySelectorAll("td");
-                let nombre = cells[1].querySelector("input").value;
-                let jugo = cells[2].querySelector("input").value;
-                let conQuienJugo = cells[3].querySelector("input").value;
-                let descripcion = cells[4].querySelector("textarea").value;
-
-                rowData.push({
-                    "No": i,
-                    "Nombre del Niño(a)": nombre,
-                    "A Que Jugo": jugo,
-                    "Con quien Jugo": conQuienJugo,
-                    "Descripción de evidencias de aprendizaje": descripcion
-                });
-            }
-
-            // Crear el libro de Excel y la hoja de datos
-            let workbook = XLSX.utils.book_new();
-            let worksheet = XLSX.utils.json_to_sheet(rowData);
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
-
-            // Descargar el archivo Excel
-            XLSX.writeFile(workbook, filename);
-        });
-    }
-</script>
 
 </html>

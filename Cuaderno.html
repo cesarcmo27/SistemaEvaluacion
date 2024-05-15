@@ -62,13 +62,20 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
+
         table th {
             background-color: #42344d;
             color: #FFF;
-            padding: 10px; /* Añade un poco de espacio alrededor del texto */
+            padding: 10px;
+            /* Añade un poco de espacio alrededor del texto */
         }
     </style>
     <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
@@ -79,7 +86,7 @@
         <div class="title">CUADERNO DE CAMPO</div>
         <div class="content">
             <div>
-                <h2 class="subtitulo">PROYECTO DE APRENDIZAJE: 'Conociendo y explorando nuestro cuerpo'</h2>
+                <h2 id='sub1' class="subtitulo">PROYECTO DE APRENDIZAJE: 'Conociendo y explorando nuestro cuerpo'</h2>
                 <h3 class="subtitulo">COMPETENCIA: Construye su identidad</h3>
             </div>
             <div>
@@ -98,15 +105,15 @@
         <div class="report-container">
             <h2>Reporte</h2>
             <div><button id="excelbutton" class="download-button">
-                <span class="download-icon">⬇️</span>Descargar Excel
-            </button></div>
+                    <span class="download-icon">⬇️</span>Descargar Excel
+                </button></div>
             <br>
             <table>
                 <tr>
                     <th>No</th>
                     <th>Nombre del infante</th>
                     <th>Descripción de evidencias de aprendizaje</th>
-                    
+
                 </tr>
             </table>
         </div>
@@ -141,6 +148,39 @@
 
             exportBtn.addEventListener("click", function () {
                 let rowData = [];
+
+                let proyectoAprendizaje = document.getElementById('sub1').textContent;
+                let listItems = document.querySelectorAll('.list-item');
+
+                let caracteristicas = listItems[0].textContent.trim();
+                let parecidos = listItems[1].textContent.trim();
+                let acciones = listItems[2].textContent.trim();
+
+               
+                rowData.push({
+                    "No": "-",
+                    "Nombre del infante": proyectoAprendizaje,
+                    "Descripción de evidencias de aprendizaje": ""
+                });
+
+                rowData.push({
+                    "No": "(A)",
+                    "Nombre del infante": caracteristicas,
+                    "Descripción de evidencias de aprendizaje": ""
+                });
+
+                rowData.push({
+                    "No": "(B)",
+                    "Nombre del infante": parecidos,
+                    "Descripción de evidencias de aprendizaje": ""
+                });
+
+                rowData.push({
+                    "No": "(C)",
+                    "Nombre del infante": acciones,
+                    "Descripción de evidencias de aprendizaje": ""
+                });
+
                 let rows = table.querySelectorAll("tr");
 
                 for (let i = 1; i < rows.length; i++) {
