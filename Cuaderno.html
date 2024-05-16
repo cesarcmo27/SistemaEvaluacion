@@ -83,20 +83,17 @@
 
 <body>
     <div class="container">
-        <div class="title">CUADERNO DE CAMPO</div>
+        <div class="title" id="elTitulo">CUADERNO DE CAMPO</div>
         <div class="content">
             <div>
-                <h2 id='sub1' class="subtitulo">PROYECTO DE APRENDIZAJE: 'Conociendo y explorando nuestro cuerpo'</h2>
-                <h3 class="subtitulo">COMPETENCIA: Construye su identidad</h3>
+                <h2  class="subtitulo">PROYECTO DE APRENDIZAJE: <span id='sub2' class="estilo">'Conociendo y explorando nuestro cuerpo'</span></h2>
+                <h3 class="subtitulo">COMPETENCIA: <span id='sub3' class="estilo">Construye su identidad</span></h3>
             </div>
             <div>
                 <ul class="list">
-                    <li class="list-item">Menciona sus características físicas, cualidades, gustos personales, gestos y
-                        preferencias.</li>
-                    <li class="list-item">Comenta a quién se le parece de su familia o parientes, como era de bebé y
-                        como es ahora.</li>
-                    <li class="list-item">Realiza acciones de cuidado personal de manera autónoma y explica porqué las
-                        realiza.</li>
+                    <li class="list-item">Menciona sus características físicas, cualidades, gustos personales, gestos y preferencias.</li>
+                    <li class="list-item">Comenta a quién se le parece de su familia o parientes, como era de bebé y como es ahora.</li>
+                    <li class="list-item">Realiza acciones de cuidado personal de manera autónoma y explica porqué las realiza.</li>
                 </ul>
             </div>
         </div>
@@ -148,56 +145,41 @@
 
             exportBtn.addEventListener("click", function () {
                 let rowData = [];
-
-                let proyectoAprendizaje = document.getElementById('sub1').textContent;
+                let titulo = document.getElementById('elTitulo').textContent;
+                let proyectoAprendizaje = document.getElementById('sub2').textContent;
+                let competencia = document.getElementById('sub3').textContent;
                 let listItems = document.querySelectorAll('.list-item');
 
-                let caracteristicas = listItems[0].textContent.trim();
-                let parecidos = listItems[1].textContent.trim();
-                let acciones = listItems[2].textContent.trim();
-
-               
-                rowData.push({
-                    "No": "-",
-                    "Nombre del infante": proyectoAprendizaje,
-                    "Descripción de evidencias de aprendizaje": ""
-                });
-
-                rowData.push({
-                    "No": "(A)",
-                    "Nombre del infante": caracteristicas,
-                    "Descripción de evidencias de aprendizaje": ""
-                });
-
-                rowData.push({
-                    "No": "(B)",
-                    "Nombre del infante": parecidos,
-                    "Descripción de evidencias de aprendizaje": ""
-                });
-
-                rowData.push({
-                    "No": "(C)",
-                    "Nombre del infante": acciones,
-                    "Descripción de evidencias de aprendizaje": ""
-                });
+                let item1 = listItems[0].textContent.trim();
+                let item2 = listItems[1].textContent.trim();
+                let item3 = listItems[2].textContent.trim();
 
                 let rows = table.querySelectorAll("tr");
+
+                var ws_data = [
+                    [, titulo], // Primera fila con el título en la segunda columna
+                    [, proyectoAprendizaje], // Primera fila con el título en la segunda columna
+                    [, competencia], // Segunda fila con el subtítulo en la segunda columna
+                    [, '* '+item1],
+                    [, '* '+item2],
+                    [, '* '+item3],
+                    [,'' ], 
+                    [,'' ], 
+                    ['No', 'Nombre del infante', 'Descripción de evidencias de aprendizaje'], // Tercera fila con los encabezados de la tabla
+                   
+                ];
 
                 for (let i = 1; i < rows.length; i++) {
                     let cells = rows[i].querySelectorAll("td");
                     let nombre = cells[1].querySelector("input").value;
                     let descripcion = cells[2].querySelector("textarea").value;
 
-                    rowData.push({
-                        "No": i,
-                        "Nombre del infante": nombre,
-                        "Descripción de evidencias de aprendizaje": descripcion
-                    });
+                    ws_data.push([i, nombre, descripcion]);
                 }
 
                 // Crear el libro de Excel y la hoja de datos
                 let workbook = XLSX.utils.book_new();
-                let worksheet = XLSX.utils.json_to_sheet(rowData);
+                let worksheet = XLSX.utils.aoa_to_sheet(ws_data);
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
 
                 // Descargar el archivo Excel
@@ -208,7 +190,7 @@
 
 
         document.addEventListener('DOMContentLoaded', (event) => {
-            let listItems = document.querySelectorAll('.subtitulo');
+            let listItems = document.querySelectorAll('.estilo');
 
             listItems.forEach((item) => {
                 item.addEventListener('click', (event) => {
