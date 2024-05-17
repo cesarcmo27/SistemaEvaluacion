@@ -94,7 +94,7 @@
 
 <body>
     <div class="container">
-        <div class="title">REGISTRO DEL JUEGO LIBRE EN LOS SECTORES</div>
+        <div class="title" id="elTitulo">REGISTRO DEL JUEGO LIBRE EN LOS SECTORES</div>
         <div class="content">
             <div>
 
@@ -159,8 +159,10 @@
             let exportBtn = document.getElementById("excelbutton");
 
             exportBtn.addEventListener("click", function () {
-                let rowData = [];
+               
                 let rows = table.querySelectorAll("tr");
+                
+                let titulo = document.getElementById('elTitulo').textContent;
                 let selectedDate = document.getElementById('date').value;
                 if (!selectedDate) {
                     alert('Por favor, selecciona una fecha válida antes de descargar.');
@@ -172,25 +174,29 @@
                 // Crear el nombre del archivo con la fecha seleccionada
                 let filename = 'TablaJuegoSectores-' + selectedDate + '.xlsx';
 
+                var ws_data = [
+                    [, titulo,], // Primera fila con el título en la segunda columna
+                    [, "fecha:",selectedDate], // Primera fila con el título en la segunda columna
+                    [,'',], 
+                    [,'', ], 
+                    ['No', 'Nombre del Niño(a)', 'A Que Jugo','Con quien Jugo','Descripción de evidencias de aprendizaje'], // Tercera fila con los encabezados de la tabla
+                   
+                ];
+
                 for (let i = 1; i < rows.length; i++) {
                     let cells = rows[i].querySelectorAll("td");
                     let nombre = cells[1].querySelector("input").value;
                     let jugo = cells[2].querySelector("input").value;
                     let conQuienJugo = cells[3].querySelector("input").value;
                     let descripcion = cells[4].querySelector("textarea").value;
-
-                    rowData.push({
-                        "No": i,
-                        "Nombre del Niño(a)": nombre,
-                        "A Que Jugo": jugo,
-                        "Con quien Jugo": conQuienJugo,
-                        "Descripción de evidencias de aprendizaje": descripcion
-                    });
+                    
+                    ws_data.push([i, nombre, jugo,conQuienJugo,descripcion]);
+                   
                 }
 
                 // Crear el libro de Excel y la hoja de datos
                 let workbook = XLSX.utils.book_new();
-                let worksheet = XLSX.utils.json_to_sheet(rowData);
+                let worksheet = XLSX.utils.aoa_to_sheet(ws_data);
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
 
                 // Descargar el archivo Excel
