@@ -3,15 +3,15 @@
 
 <head>
     <title>JUEGO POR SECTORES</title>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Cambiamos el fondo a un degradado blanco */
             background: linear-gradient(to right, #fff, #ddd);
             color: black;
-            /* Cambiamos el color del texto a negro para que sea legible */
+            margin: 0;
+            padding: 0;
         }
 
         .container {
@@ -20,44 +20,39 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            max-width: 800px;
-            /* Eliminamos el fondo blanco de la tabla */
+            max-width: 90%;
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .title {
             text-align: center;
-            font-size: 2.5em;
-            /* Aumentamos el tamaño de la fuente */
+            font-size: 2em;
             margin-bottom: 1em;
             color: #1abc9c;
-            /* Cambiamos el color del texto a un verde azulado */
             text-shadow: 2px 2px 4px #000000;
-            /* Agregamos una sombra al texto */
         }
 
-        /* El resto de tu código CSS... */
-        /* Estilos para el botón */
         .download-button {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 0.75rem 1.5rem;
             background-color: #0074D9;
             color: #FFF;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-size: 1rem;
         }
 
         .download-button:hover {
             background-color: #0056b3;
         }
 
-        /* Animación de descarga */
         .download-icon {
             display: inline-block;
-            margin-right: 10px;
+            margin-right: 0.5rem;
             animation: spin 2s linear infinite;
         }
 
@@ -71,23 +66,51 @@
             }
         }
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
         table th {
             background-color: #42344d;
             color: #FFF;
-            padding: 10px;
-            /* Añade un poco de espacio alrededor del texto */
         }
+
         .date-picker {
             display: inline-block;
             background: #f0f0f0;
             border: 2px solid #1abc9c;
             border-radius: 5px;
-            
             color: #333;
-            font-size: 1em;
-           
+            font-size: 1rem;
+            padding: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 300px;
         }
 
+        @media (max-width: 600px) {
+            .title {
+                font-size: 1.5em;
+            }
+
+            .download-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .date-picker {
+                font-size: 0.875rem;
+                padding: 0.5rem;
+            }
+        }
     </style>
     <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -97,21 +120,17 @@
         <div class="title" id="elTitulo">REGISTRO DEL JUEGO LIBRE EN LOS SECTORES</div>
         <div class="content">
             <div>
-
-            </div>
-            <div>
                 <label for="date">Fecha:</label>
                 <input class="date-picker" type="date" id="date" name="date">
-
             </div>
         </div>
-        <!-- Contenedor de reporte -->
-
         <div class="report-container">
             <h2>Reporte</h2>
-            <div><button id="excelbutton" class="download-button">
+            <div>
+                <button id="excelbutton" class="download-button">
                     <span class="download-icon">⬇️</span>Descargar Excel
-                </button></div>
+                </button>
+            </div>
             <br>
             <table>
                 <tr>
@@ -120,7 +139,6 @@
                     <th>A Que Jugo?</th>
                     <th>Con Quien Jugo?</th>
                     <th>Actitud del Niño(a)</th>
-
                 </tr>
             </table>
         </div>
@@ -131,13 +149,12 @@
             let numChildren = prompt("¿Con cuántos niños trabajarás?");
             numChildren = parseInt(numChildren);
 
-            // Si el número ingresado no es válido, se establece un valor predeterminado de 10
             if (isNaN(numChildren) || numChildren <= 0) {
                 numChildren = 10;
             }
 
             let table = document.querySelector("table");
-            let data = [];
+
             for (let i = 1; i <= numChildren; i++) {
                 let row = table.insertRow(-1);
                 let cell1 = row.insertCell(0);
@@ -146,41 +163,30 @@
                 let cell4 = row.insertCell(3);
                 let cell5 = row.insertCell(4);
 
-
                 cell1.textContent = i;
-                cell2.innerHTML = "<input type='text'>";
-                cell3.innerHTML = "<input type='text'>";
-                cell4.innerHTML = "<input type='text'>";
-                cell5.innerHTML = "<textarea rows='4' cols='50'></textarea>";
-
-
+                cell2.innerHTML = "<input type='text' style='width: 100%;'>";
+                cell3.innerHTML = "<input type='text' style='width: 100%;'>";
+                cell4.innerHTML = "<input type='text' style='width: 100%;'>";
+                cell5.innerHTML = "<textarea rows='4' cols='50' style='width: 100%;'></textarea>";
             }
 
-            let exportBtn = document.getElementById("excelbutton");
-
-            exportBtn.addEventListener("click", function () {
-               
+            document.getElementById("excelbutton").addEventListener("click", function () {
                 let rows = table.querySelectorAll("tr");
-                
                 let titulo = document.getElementById('elTitulo').textContent;
                 let selectedDate = document.getElementById('date').value;
+
                 if (!selectedDate) {
                     alert('Por favor, selecciona una fecha válida antes de descargar.');
                     return;
                 }
-                // Formatear la fecha para que sea compatible con los nombres de archivo
-                selectedDate = selectedDate.split('-').join('');
 
-                // Crear el nombre del archivo con la fecha seleccionada
+                selectedDate = selectedDate.split('-').join('');
                 let filename = 'TablaJuegoSectores-' + selectedDate + '.xlsx';
 
                 var ws_data = [
-                    [, titulo,], // Primera fila con el título en la segunda columna
-                    [, "fecha:",selectedDate], // Primera fila con el título en la segunda columna
-                    [,'',], 
-                    [,'', ], 
-                    ['No', 'Nombre del Niño(a)', 'A Que Jugo','Con quien Jugo','Descripción de evidencias de aprendizaje'], // Tercera fila con los encabezados de la tabla
-                   
+                    [, titulo],
+                    [, "fecha:", selectedDate],
+                    ['No', 'Nombre del Niño(a)', 'A Que Jugo', 'Con quien Jugo', 'Descripción de evidencias de aprendizaje']
                 ];
 
                 for (let i = 1; i < rows.length; i++) {
@@ -189,23 +195,17 @@
                     let jugo = cells[2].querySelector("input").value;
                     let conQuienJugo = cells[3].querySelector("input").value;
                     let descripcion = cells[4].querySelector("textarea").value;
-                    
-                    ws_data.push([i, nombre, jugo,conQuienJugo,descripcion]);
-                   
+
+                    ws_data.push([i, nombre, jugo, conQuienJugo, descripcion]);
                 }
 
-                // Crear el libro de Excel y la hoja de datos
                 let workbook = XLSX.utils.book_new();
                 let worksheet = XLSX.utils.aoa_to_sheet(ws_data);
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
 
-                // Descargar el archivo Excel
                 XLSX.writeFile(workbook, filename);
             });
         }
-
-
-
     </script>
 </body>
 
