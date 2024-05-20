@@ -4,14 +4,15 @@
 <head>
     <title>CUADERNO DE CAMPO</title>
     <script src="https://unpkg.com/html2canvas@1.0.0/dist/html2canvas.min.js"></script>
-
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Cambiamos el fondo a un degradado blanco */
             background: linear-gradient(to right, #fff, #ddd);
             color: black;
-            /* Cambiamos el color del texto a negro para que sea legible */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         .container {
@@ -21,7 +22,6 @@
             justify-content: center;
             margin: 0 auto;
             max-width: 800px;
-            /* Eliminamos el fondo blanco de la tabla */
             padding: 20px;
             border-radius: 10px;
         }
@@ -29,16 +29,23 @@
         .title {
             text-align: center;
             font-size: 2.5em;
-            /* Aumentamos el tamaño de la fuente */
             margin-bottom: 1em;
             color: #1abc9c;
-            /* Cambiamos el color del texto a un verde azulado */
             text-shadow: 2px 2px 4px #000000;
-            /* Agregamos una sombra al texto */
         }
 
-        /* El resto de tu código CSS... */
-        /* Estilos para el botón */
+        .subtitulo {
+            margin: 0.5em 0;
+        }
+
+        .list {
+            padding-left: 20px;
+        }
+
+        .list-item {
+            margin-bottom: 0.5em;
+        }
+
         .download-button {
             display: inline-block;
             padding: 10px 20px;
@@ -54,7 +61,6 @@
             background-color: #0056b3;
         }
 
-        /* Animación de descarga */
         .download-icon {
             display: inline-block;
             margin-right: 10px;
@@ -71,14 +77,79 @@
             }
         }
 
-        table th {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
             background-color: #42344d;
             color: #FFF;
-            padding: 10px;
-            /* Añade un poco de espacio alrededor del texto */
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .download-button {
+                padding: 8px 16px;
+            }
+
+            .list-item {
+                font-size: 0.9em;
+            }
+
+            table, th, td {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.5em;
+            }
+
+            .subtitulo {
+                font-size: 1em;
+            }
+
+            .download-button {
+                padding: 6px 12px;
+            }
+
+            .list-item {
+                font-size: 0.8em;
+            }
+
+            table, th, td {
+                font-size: 0.8em;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+
+            .list {
+                padding-left: 15px;
+            }
         }
     </style>
-    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -86,7 +157,7 @@
         <div class="title" id="elTitulo">CUADERNO DE CAMPO</div>
         <div class="content">
             <div>
-                <h2  class="subtitulo">PROYECTO DE APRENDIZAJE: <span id='sub2' class="estilo">'Conociendo y explorando nuestro cuerpo'</span></h2>
+                <h2 class="subtitulo">PROYECTO DE APRENDIZAJE: <span id='sub2' class="estilo">'Conociendo y explorando nuestro cuerpo'</span></h2>
                 <h3 class="subtitulo">COMPETENCIA: <span id='sub3' class="estilo">Construye su identidad</span></h3>
             </div>
             <div>
@@ -97,8 +168,6 @@
                 </ul>
             </div>
         </div>
-        <!-- Contenedor de reporte -->
-
         <div class="report-container">
             <h2>Reporte</h2>
             <div><button id="excelbutton" class="download-button">
@@ -110,7 +179,6 @@
                     <th>No</th>
                     <th>Nombre del infante</th>
                     <th>Descripción de evidencias de aprendizaje</th>
-
                 </tr>
             </table>
         </div>
@@ -121,24 +189,21 @@
             let numChildren = prompt("¿Con cuántos niños trabajarás?");
             numChildren = parseInt(numChildren);
 
-            // Si el número ingresado no es válido, se establece un valor predeterminado de 10
             if (isNaN(numChildren) || numChildren <= 0) {
                 numChildren = 10;
             }
 
             let table = document.querySelector("table");
-            let data = [];
+
             for (let i = 1; i <= numChildren; i++) {
                 let row = table.insertRow(-1);
                 let cell1 = row.insertCell(0);
                 let cell2 = row.insertCell(1);
                 let cell3 = row.insertCell(2);
 
-
                 cell1.textContent = i;
                 cell2.innerHTML = "<input type='text'>";
                 cell3.innerHTML = "<textarea rows='4' cols='50'></textarea>";
-
             }
 
             let exportBtn = document.getElementById("excelbutton");
@@ -157,16 +222,15 @@
                 let rows = table.querySelectorAll("tr");
 
                 var ws_data = [
-                    [, titulo], // Primera fila con el título en la segunda columna
-                    [, proyectoAprendizaje], // Primera fila con el título en la segunda columna
-                    [, competencia], // Segunda fila con el subtítulo en la segunda columna
-                    [, '* '+item1],
-                    [, '* '+item2],
-                    [, '* '+item3],
-                    [,'' ], 
-                    [,'' ], 
-                    ['No', 'Nombre del infante', 'Descripción de evidencias de aprendizaje'], // Tercera fila con los encabezados de la tabla
-                   
+                    [, titulo],
+                    [, proyectoAprendizaje],
+                    [, competencia],
+                    [, '* ' + item1],
+                    [, '* ' + item2],
+                    [, '* ' + item3],
+                    [, ''],
+                    [, ''],
+                    ['No', 'Nombre del infante', 'Descripción de evidencias de aprendizaje'],
                 ];
 
                 for (let i = 1; i < rows.length; i++) {
@@ -177,17 +241,13 @@
                     ws_data.push([i, nombre, descripcion]);
                 }
 
-                // Crear el libro de Excel y la hoja de datos
                 let workbook = XLSX.utils.book_new();
                 let worksheet = XLSX.utils.aoa_to_sheet(ws_data);
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Datos Niños");
 
-                // Descargar el archivo Excel
                 XLSX.writeFile(workbook, 'TablaDeDatos.xlsx');
             });
         }
-
-
 
         document.addEventListener('DOMContentLoaded', (event) => {
             let listItems = document.querySelectorAll('.estilo');
@@ -200,7 +260,6 @@
                     }
                 });
             });
-
         });
 
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -214,12 +273,7 @@
                     }
                 });
             });
-
         });
-
-
-
-
     </script>
 </body>
 
