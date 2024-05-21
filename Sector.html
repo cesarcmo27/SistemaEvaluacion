@@ -28,11 +28,21 @@
 
         .title {
             text-align: center;
-            font-size: 2em;
+            font-size: 2.5em;
             margin-bottom: 1em;
             color: #1abc9c;
-            text-shadow: 2px 2px 4px #4f7361;
+            font-weight: bold;
+            /* Hace que el texto sea negrita */
+            text-shadow: 2px 2px 0 #000,
+                /* sombra negra hacia abajo y derecha */
+                -2px -2px 0 #000,
+                /* sombra negra hacia arriba y izquierda */
+                2px -2px 0 #000,
+                /* sombra negra hacia derecha y arriba */
+                -2px 2px 0 #000;
+            /* sombra negra hacia izquierda y abajo */
         }
+
 
         .download-button {
             display: inline-block;
@@ -72,7 +82,8 @@
             margin-top: 1em;
         }
 
-        table th, table td {
+        table th,
+        table td {
             border: 1px solid #ddd;
             padding: 0.5rem;
             text-align: left;

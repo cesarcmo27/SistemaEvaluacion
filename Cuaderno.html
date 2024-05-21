@@ -30,9 +30,19 @@
             text-align: center;
             font-size: 2.5em;
             margin-bottom: 1em;
-            color: #4a5654;
-            text-shadow: 2px 2px 4px #000000;
+            color: #1abc9c;
+            font-weight: bold;
+            /* Hace que el texto sea negrita */
+            text-shadow: 2px 2px 0 #000,
+                /* sombra negra hacia abajo y derecha */
+                -2px -2px 0 #000,
+                /* sombra negra hacia arriba y izquierda */
+                2px -2px 0 #000,
+                /* sombra negra hacia derecha y arriba */
+                -2px 2px 0 #000;
+            /* sombra negra hacia izquierda y abajo */
         }
+
 
         .subtitulo {
             margin: 0.5em 0;
@@ -83,7 +93,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: left;
@@ -111,11 +122,14 @@
                 font-size: 0.9em;
             }
 
-            table, th, td {
+            table,
+            th,
+            td {
                 font-size: 0.9em;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 8px;
             }
         }
@@ -137,11 +151,14 @@
                 font-size: 0.8em;
             }
 
-            table, th, td {
+            table,
+            th,
+            td {
                 font-size: 0.8em;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 6px;
             }
 
@@ -149,7 +166,8 @@
                 padding-left: 15px;
             }
 
-            input[type="text"], textarea {
+            input[type="text"],
+            textarea {
                 width: 100%;
                 box-sizing: border-box;
             }
@@ -162,14 +180,18 @@
         <div class="title" id="elTitulo">CUADERNO DE CAMPO</div>
         <div class="content">
             <div>
-                <h2 class="subtitulo">PROYECTO DE APRENDIZAJE: <span id='sub2' class="estilo">'Conociendo y explorando nuestro cuerpo'</span></h2>
+                <h2 class="subtitulo">PROYECTO DE APRENDIZAJE: <span id='sub2' class="estilo">'Conociendo y explorando
+                        nuestro cuerpo'</span></h2>
                 <h3 class="subtitulo">COMPETENCIA: <span id='sub3' class="estilo">Construye su identidad</span></h3>
             </div>
             <div>
                 <ul class="list">
-                    <li class="list-item">Menciona sus características físicas, cualidades, gustos personales, gestos y preferencias.</li>
-                    <li class="list-item">Comenta a quién se le parece de su familia o parientes, como era de bebé y como es ahora.</li>
-                    <li class="list-item">Realiza acciones de cuidado personal de manera autónoma y explica porqué las realiza.</li>
+                    <li class="list-item">Menciona sus características físicas, cualidades, gustos personales, gestos y
+                        preferencias.</li>
+                    <li class="list-item">Comenta a quién se le parece de su familia o parientes, como era de bebé y
+                        como es ahora.</li>
+                    <li class="list-item">Realiza acciones de cuidado personal de manera autónoma y explica porqué las
+                        realiza.</li>
                 </ul>
             </div>
         </div>
