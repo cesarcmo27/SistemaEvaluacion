@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Menú Principal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
    
@@ -41,11 +40,21 @@
 
         /* Media query para dispositivos móviles */
         @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
             nav a {
                 padding: 20px 30px; /* Aumenta el padding para mejor usabilidad en móviles */
                 font-size: 18px; /* Aumenta el tamaño del texto */
             }
+
+            iframe {
+                height: 80vh; /* Ajusta la altura del iframe para móviles */
+            }
         }
+
         .nav-icon {
             margin-right: 8px; /* Espacio entre el ícono y el texto */
         }
@@ -53,7 +62,6 @@
 </head>
 
 <body>
-    
     <nav>
         <a href="Cuaderno.html" target="contentFrame"><i class="fas fa-book nav-icon"></i>Cuaderno</a>
         <a href="Sector.html" target="contentFrame"><i class="fas fa-industry nav-icon"></i>Sector</a>
