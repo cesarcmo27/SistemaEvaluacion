@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+
+        /* Contenedor principal al 50% del ancho */
+        .contenedor-tabla {
+            max-width: 50%;
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .tabla-contenida {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .tabla-contenida th,
+        .tabla-contenida td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+            word-break: break-word;
+        }
+
+        .header-crema {
+            background-color: #fff2cc;
+            font-weight: bold;
+        }
+
+        /* Configuración de columnas */
+        .col-1 {
+            width: 25%;
+        }
+
+        .col-2 {
+            width: 25%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 25%;
+        }
+
+        /* Responsividad para móviles */
+        @media (max-width: 768px) {
+            .contenedor-tabla {
+                max-width: 100%;
+                /* Ocupa todo el ancho en móviles */
+            }
+
+            .tabla-contenida {
+                font-size: 14px;
+            }
+        }
+
+        /* ESTILOS PARA LA TABLA DE ESTUDIANTES */
+        .contenedor-listado {
+            max-width: 65%;
+            width: 100%;
+            margin-left: 0;
+            margin-top: 20px;
+        }
+
+        .tabla-estudiantes {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: auto;
+        }
+
+        .tabla-estudiantes th {
+            background-color: #fff2cc;
+            /* Color crema igual a los headers */
+            font-weight: bold;
+            padding: 12px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+
+        .tabla-estudiantes td {
+            padding: 10px;
+            border: 1px solid #000;
+            vertical-align: middle;
+        }
+
+        /* Colores específicos para los headers */
+        .tabla-estudiantes th:nth-child(3) {
+            /* Logro */
+            background-color: #15ee15;
+            /* Verde claro */
+        }
+
+        .tabla-estudiantes td input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .tabla-estudiantes th:nth-child(4) {
+            /* Proceso */
+            background-color: #f3de1d;
+            /* Amarillo claro */
+        }
+
+        .tabla-estudiantes th:nth-child(5) {
+            /* Inicio */
+            background-color: #e61636;
+            /* Rojo claro */
+        }
+
+        .tabla-contenida td {
+            background-color: white;
+            /* Fuerza fondo blanco para celdas vacías */
+        }
+
+        /* Estilos para los nuevos inputs */
+        .tabla-contenida input {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .contenedor-listado {
+                max-width: 95%;
+            }
+
+            .tabla-estudiantes th,
+            .tabla-estudiantes td {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .tabla-estudiantes th,
+            .tabla-estudiantes td {
+                padding: 6px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor-tabla">
+        <table class="tabla-contenida">
+            <!-- Fila 1 -->
+            <tr>
+                <th class="header-crema col-1">Unidad de Aprendizaje</th>
+                <td class="col-3" colspan="3"> </td>
+            </tr>
+            <tr>
+                <th class="header-crema col-1">Docente</th>
+                <td class="col-3" colspan="3">YSABEL RODAS HUAMANI</td>
+            </tr>
+            <!-- Fila 2 -->
+            <tr>
+                <th class="header-crema col-1">Aula</th>
+                <td class="col-1">AMARILLA</td>
+                <th class="header-crema col-1">Edad</th>
+                <td class="col-1">4 años</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="contenedor-tabla">
+
+        <table class="tabla-contenida" style="clear: both; margin-top: 15px">
+            <tr>
+                <th class="header-crema col-1">Sesión de aprendizaje</th>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th class="header-crema col-1">Area</th>
+                <td></td>
+                <th class="header-crema col-1">Fecha</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th class="header-crema col-1">Criterio de Evaluación</th>
+                <td><input type="text" class="criterio-evaluacion"></td>
+                <th class="header-crema col-1">Competencia</th>
+                <td><input type="text" class="competencia"></td>
+            </tr>
+
+        </table>
+    </div>
+    <br>
+
+    <div class="dashed-line"></div>
+
+    <div class="contenedor-listado">
+        <table class="tabla-estudiantes">
+            <thead>
+                <tr>
+
+                    <th>Estudiantes</th>
+                    <th>Logro</th>
+                    <th>Proceso</th>
+                    <th>Inicio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01 - BRACAMONTE CALDERON AITHANA MARAL</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>02 - BUISA LIMACO, ARIZBETH DAFNE</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>03 - CABRERA CHOQUE, THAISA ESPERANZA</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>04 - CONDORI TONCONI LIAN ELIAS</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>05 - CORREA MORAN DHEYKER VINCHENZO</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>06 - GARCIA SANTOS DAYRA ISAMAR</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>07 - GUTIERREZ VARGAS AITHANA SAMARA</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>08 - HUAPAYA RIVERA PEYTON AYARI</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>09 - HUILLCA HUAMAN INÉS DALILA</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>10 - MACHUCA COLLAZOS BRIANNA KALESSY</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>11 - MANSILLA MAURICIO, ISMAEL DENSEL</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>12 - MARISCAL ALVARADO EMMANUEL</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>13 - MEDINA CHILCON, ANSHLEY GISSEL</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>14 - PALACIOS RENGIFO LEAH ALISSON</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>15 - PALOMARES HIDALGO AMAIA ALESSANDRA</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>16 - RIVERSOS ANTONIO, ANTONELLA GIANNA</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>17 - SANCHEZ ZAPATA FABRIZIO ALEJANDRO</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>18 - SOBERON DIAZ GARY SEBASTIAN</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>19 - TANANTA PARDO LENIN JUSTIN</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>20 - TABOADA CARDENAS SOFIA SCARLETT</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>21 - VARGAS SANTA CRUZ YHOMIRA HARLEY</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>22 - VASQUEZ DE LA CRUZ JHEICKO ALEXIO</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>23 - VELASQUEZ SINCHE AISLINN ARLETTE</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+                <tr>
+                    <td>24 - LEON GUERRERO MILETH VALENTINA</td>
+                    <td><input type="text" class="logro"></td>
+                    <td><input type="text" class="proceso"></td>
+                    <td><input type="text" class="inicio"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+</body>
+
+<button onclick="exportToExcel()"
+    style="margin: 20px; padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer;">
+    Exportar a Excel
+</button>
+
+
+<script>
+    async function exportToExcel() {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Evaluación');
+
+        let currentRow = 1; // Fila inicial
+
+        // Procesar cada tabla
+        document.querySelectorAll('table').forEach((table, tableIndex) => {
+
+            if (tableIndex > 0) {
+                worksheet.addRow([]);
+                worksheet.addRow([]);
+                currentRow += 2;
+            }
+            // Convertir tabla HTML a matriz de datos
+            const data = Array.from(table.rows).map(row =>
+                Array.from(row.cells).map(cell => {
+                    const input = cell.querySelector('input');
+                    return input ? input.value : cell.innerText;
+                })
+            );
+
+            // Añadir espacio entre tablas (excepto la primera)
+            if (tableIndex > 0) currentRow += 2;
+
+            // Añadir datos y estilos
+            data.forEach((rowData, rowOffset) => {
+                const excelRow = worksheet.addRow(rowData);
+
+                // Aplicar estilos
+                excelRow.eachCell((excelCell, colNumber) => {
+                    const htmlCell = table.rows[rowOffset].cells[colNumber - 1];
+
+                    // 1. Bordes obligatorios
+                    excelCell.border = {
+                        top: { style: 'thin', color: { argb: 'FF000000' } },
+                        left: { style: 'thin', color: { argb: 'FF000000' } },
+                        bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                        right: { style: 'thin', color: { argb: 'FF000000' } }
+                    };
+
+                    // 2. Estilos para headers (primera fila de cada tabla)
+                    if (rowOffset === 0) {
+                        const bgColor = getComputedStyle(htmlCell).backgroundColor;
+                        excelCell.fill = {
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: rgbToHex(bgColor) }
+                        };
+                        excelCell.font = { bold: true };
+                    }
+                });
+
+                currentRow++;
+            });
+        });
+
+        // Ajustar anchos de columnas
+        worksheet.columns = Array.from({ length: 6 }, () => ({ width: 30 }));
+
+        // Generar archivo
+        const buffer = await workbook.xlsx.writeBuffer();
+        saveAs(new Blob([buffer]), 'Evaluacion_Completa.xlsx');
+    }
+
+
+    // Función de conversión actualizada
+    function rgbToHex(rgb) {
+        if (!rgb || rgb === 'transparent' || rgb === 'rgba(0, 0, 0, 0)') {
+            return 'FFFFFFFF'; // Blanco sólido
+        }
+        const parts = rgb.match(/\d+/g);
+        if (!parts || parts.length < 3) return 'FFFFFFFF';
+        const hexParts = parts.map(x => parseInt(x).toString(16).padStart(2, '0'));
+        return 'FF' + hexParts.join('').toUpperCase();
+    }
+</script>
+
+</html>
