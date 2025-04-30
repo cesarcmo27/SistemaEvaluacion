@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -104,6 +108,14 @@
             /* Verde claro */
         }
 
+        .flatpickr-input {
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 8px);
+            cursor: pointer;
+        }
+
         .tabla-estudiantes td input {
             width: 100%;
             box-sizing: border-box;
@@ -139,17 +151,11 @@
             box-sizing: border-box;
         }
 
-        /* Añadir estos estilos para los radio buttons */
-        .radio-group {
-            display: flex;
-            gap: 10px;
-            justify-content: space-around;
-        }
-
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 3px;
+        /* Estilos para centrar checkboxes */
+        .tabla-estudiantes td input[type="checkbox"] {
+            margin: 0 auto;
+            display: block;
+            transform: scale(1.5);
         }
 
         .criterio-evaluacion,
@@ -188,6 +194,14 @@
             }
         }
 
+        /* Nuevo estilo para el input de fecha */
+        input[type="date"] {
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 8px);
+        }
+
         @media (max-width: 480px) {
 
             .tabla-estudiantes th,
@@ -205,7 +219,7 @@
             <!-- Fila 1 -->
             <tr>
                 <th class="header-crema col-1">Unidad de Aprendizaje</th>
-                <td class="col-3" colspan="3"> </td>
+                <td class="col-3" colspan="3"> <input type="text" /></td>
             </tr>
             <tr>
                 <th class="header-crema col-1">Docente</th>
@@ -226,13 +240,13 @@
         <table class="tabla-contenida" style="clear: both; margin-top: 15px">
             <tr>
                 <th class="header-crema col-1">Sesión de aprendizaje</th>
-                <td colspan="3"></td>
+                <td colspan="3"><input type="text" /></td>
             </tr>
             <tr>
                 <th class="header-crema col-1">Area</th>
-                <td></td>
+                <td><input type="text" /></td>
                 <th class="header-crema col-1">Fecha</th>
-                <td></td>
+                <td><input type="text" class="fecha-selector" placeholder="DD-MM-AAAA"></td>
             </tr>
             <tr>
                 <th class="header-crema col-1">Criterio de Evaluación</th>
@@ -257,634 +271,202 @@
                 <tr>
 
                     <th>Estudiantes</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>C</th>
+                    <th>B</th>
+                    <th>A</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Estudiante 01 -->
                 <tr>
                     <td>01 - BRACAMONTE CALDERON AITHANA MARAL</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-01" value="A">A</label>
-                            <label><input type="radio" name="logro-01" value="B">B</label>
-                            <label><input type="radio" name="logro-01" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-01" value="A">A</label>
-                            <label><input type="radio" name="proceso-01" value="B">B</label>
-                            <label><input type="radio" name="proceso-01" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-01" value="A">A</label>
-                            <label><input type="radio" name="inicio-01" value="B">B</label>
-                            <label><input type="radio" name="inicio-01" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 02 -->
                 <tr>
                     <td>02 - BUISA LIMACO, ARIZBETH DAFNE</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-02" value="A">A</label>
-                            <label><input type="radio" name="logro-02" value="B">B</label>
-                            <label><input type="radio" name="logro-02" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-02" value="A">A</label>
-                            <label><input type="radio" name="proceso-02" value="B">B</label>
-                            <label><input type="radio" name="proceso-02" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-02" value="A">A</label>
-                            <label><input type="radio" name="inicio-02" value="B">B</label>
-                            <label><input type="radio" name="inicio-02" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 03 -->
                 <tr>
                     <td>03 - CABRERA CHOQUE, THAISA ESPERANZA</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-03" value="A">A</label>
-                            <label><input type="radio" name="logro-03" value="B">B</label>
-                            <label><input type="radio" name="logro-03" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-03" value="A">A</label>
-                            <label><input type="radio" name="proceso-03" value="B">B</label>
-                            <label><input type="radio" name="proceso-03" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-03" value="A">A</label>
-                            <label><input type="radio" name="inicio-03" value="B">B</label>
-                            <label><input type="radio" name="inicio-03" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 04 -->
                 <tr>
                     <td>04 - CONDORI TONCONI LIAN ELIAS</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-04" value="A">A</label>
-                            <label><input type="radio" name="logro-04" value="B">B</label>
-                            <label><input type="radio" name="logro-04" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-04" value="A">A</label>
-                            <label><input type="radio" name="proceso-04" value="B">B</label>
-                            <label><input type="radio" name="proceso-04" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-04" value="A">A</label>
-                            <label><input type="radio" name="inicio-04" value="B">B</label>
-                            <label><input type="radio" name="inicio-04" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 05 -->
                 <tr>
                     <td>05 - CORREA MORAN DHEYKER VINCHENZO</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-05" value="A">A</label>
-                            <label><input type="radio" name="logro-05" value="B">B</label>
-                            <label><input type="radio" name="logro-05" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-05" value="A">A</label>
-                            <label><input type="radio" name="proceso-05" value="B">B</label>
-                            <label><input type="radio" name="proceso-05" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-05" value="A">A</label>
-                            <label><input type="radio" name="inicio-05" value="B">B</label>
-                            <label><input type="radio" name="inicio-05" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 06 -->
                 <tr>
                     <td>06 - GARCIA SANTOS DAYRA ISAMAR</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-06" value="A">A</label>
-                            <label><input type="radio" name="logro-06" value="B">B</label>
-                            <label><input type="radio" name="logro-06" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-06" value="A">A</label>
-                            <label><input type="radio" name="proceso-06" value="B">B</label>
-                            <label><input type="radio" name="proceso-06" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-06" value="A">A</label>
-                            <label><input type="radio" name="inicio-06" value="B">B</label>
-                            <label><input type="radio" name="inicio-06" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 07 -->
                 <tr>
                     <td>07 - GUTIERREZ VARGAS AITHANA SAMARA</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-07" value="A">A</label>
-                            <label><input type="radio" name="logro-07" value="B">B</label>
-                            <label><input type="radio" name="logro-07" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-07" value="A">A</label>
-                            <label><input type="radio" name="proceso-07" value="B">B</label>
-                            <label><input type="radio" name="proceso-07" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-07" value="A">A</label>
-                            <label><input type="radio" name="inicio-07" value="B">B</label>
-                            <label><input type="radio" name="inicio-07" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 08 -->
                 <tr>
                     <td>08 - HUAPAYA RIVERA PEYTON AYARI</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-08" value="A">A</label>
-                            <label><input type="radio" name="logro-08" value="B">B</label>
-                            <label><input type="radio" name="logro-08" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-08" value="A">A</label>
-                            <label><input type="radio" name="proceso-08" value="B">B</label>
-                            <label><input type="radio" name="proceso-08" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-08" value="A">A</label>
-                            <label><input type="radio" name="inicio-08" value="B">B</label>
-                            <label><input type="radio" name="inicio-08" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 09 -->
                 <tr>
                     <td>09 - HUILLCA HUAMAN INÉS DALILA</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-09" value="A">A</label>
-                            <label><input type="radio" name="logro-09" value="B">B</label>
-                            <label><input type="radio" name="logro-09" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-09" value="A">A</label>
-                            <label><input type="radio" name="proceso-09" value="B">B</label>
-                            <label><input type="radio" name="proceso-09" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-09" value="A">A</label>
-                            <label><input type="radio" name="inicio-09" value="B">B</label>
-                            <label><input type="radio" name="inicio-09" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 10 -->
                 <tr>
                     <td>10 - MACHUCA COLLAZOS BRIANNA KALESSY</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-10" value="A">A</label>
-                            <label><input type="radio" name="logro-10" value="B">B</label>
-                            <label><input type="radio" name="logro-10" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-10" value="A">A</label>
-                            <label><input type="radio" name="proceso-10" value="B">B</label>
-                            <label><input type="radio" name="proceso-10" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-10" value="A">A</label>
-                            <label><input type="radio" name="inicio-10" value="B">B</label>
-                            <label><input type="radio" name="inicio-10" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 11 -->
                 <tr>
                     <td>11 - MANSILLA MAURICIO, ISMAEL DENSEL</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-11" value="A">A</label>
-                            <label><input type="radio" name="logro-11" value="B">B</label>
-                            <label><input type="radio" name="logro-11" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-11" value="A">A</label>
-                            <label><input type="radio" name="proceso-11" value="B">B</label>
-                            <label><input type="radio" name="proceso-11" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-11" value="A">A</label>
-                            <label><input type="radio" name="inicio-11" value="B">B</label>
-                            <label><input type="radio" name="inicio-11" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 12 -->
                 <tr>
                     <td>12 - MARISCAL ALVARADO EMMANUEL</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-12" value="A">A</label>
-                            <label><input type="radio" name="logro-12" value="B">B</label>
-                            <label><input type="radio" name="logro-12" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-12" value="A">A</label>
-                            <label><input type="radio" name="proceso-12" value="B">B</label>
-                            <label><input type="radio" name="proceso-12" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-12" value="A">A</label>
-                            <label><input type="radio" name="inicio-12" value="B">B</label>
-                            <label><input type="radio" name="inicio-12" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 13 -->
                 <tr>
                     <td>13 - MEDINA CHILCON, ANSHLEY GISSEL</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-13" value="A">A</label>
-                            <label><input type="radio" name="logro-13" value="B">B</label>
-                            <label><input type="radio" name="logro-13" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-13" value="A">A</label>
-                            <label><input type="radio" name="proceso-13" value="B">B</label>
-                            <label><input type="radio" name="proceso-13" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-13" value="A">A</label>
-                            <label><input type="radio" name="inicio-13" value="B">B</label>
-                            <label><input type="radio" name="inicio-13" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 14 -->
                 <tr>
                     <td>14 - PALACIOS RENGIFO LEAH ALISSON</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-14" value="A">A</label>
-                            <label><input type="radio" name="logro-14" value="B">B</label>
-                            <label><input type="radio" name="logro-14" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-14" value="A">A</label>
-                            <label><input type="radio" name="proceso-14" value="B">B</label>
-                            <label><input type="radio" name="proceso-14" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-14" value="A">A</label>
-                            <label><input type="radio" name="inicio-14" value="B">B</label>
-                            <label><input type="radio" name="inicio-14" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 15 -->
                 <tr>
                     <td>15 - PALOMARES HIDALGO AMAIA ALESSANDRA</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-15" value="A">A</label>
-                            <label><input type="radio" name="logro-15" value="B">B</label>
-                            <label><input type="radio" name="logro-15" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-15" value="A">A</label>
-                            <label><input type="radio" name="proceso-15" value="B">B</label>
-                            <label><input type="radio" name="proceso-15" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-15" value="A">A</label>
-                            <label><input type="radio" name="inicio-15" value="B">B</label>
-                            <label><input type="radio" name="inicio-15" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 16 -->
                 <tr>
                     <td>16 - RIVERSOS ANTONIO, ANTONELLA GIANNA</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-16" value="A">A</label>
-                            <label><input type="radio" name="logro-16" value="B">B</label>
-                            <label><input type="radio" name="logro-16" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-16" value="A">A</label>
-                            <label><input type="radio" name="proceso-16" value="B">B</label>
-                            <label><input type="radio" name="proceso-16" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-16" value="A">A</label>
-                            <label><input type="radio" name="inicio-16" value="B">B</label>
-                            <label><input type="radio" name="inicio-16" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 17 -->
                 <tr>
                     <td>17 - SANCHEZ ZAPATA FABRIZIO ALEJANDRO</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-17" value="A">A</label>
-                            <label><input type="radio" name="logro-17" value="B">B</label>
-                            <label><input type="radio" name="logro-17" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-17" value="A">A</label>
-                            <label><input type="radio" name="proceso-17" value="B">B</label>
-                            <label><input type="radio" name="proceso-17" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-17" value="A">A</label>
-                            <label><input type="radio" name="inicio-17" value="B">B</label>
-                            <label><input type="radio" name="inicio-17" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 18 -->
                 <tr>
                     <td>18 - SOBERON DIAZ GARY SEBASTIAN</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-18" value="A">A</label>
-                            <label><input type="radio" name="logro-18" value="B">B</label>
-                            <label><input type="radio" name="logro-18" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-18" value="A">A</label>
-                            <label><input type="radio" name="proceso-18" value="B">B</label>
-                            <label><input type="radio" name="proceso-18" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-18" value="A">A</label>
-                            <label><input type="radio" name="inicio-18" value="B">B</label>
-                            <label><input type="radio" name="inicio-18" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 19 -->
                 <tr>
                     <td>19 - TANANTA PARDO LENIN JUSTIN</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-19" value="A">A</label>
-                            <label><input type="radio" name="logro-19" value="B">B</label>
-                            <label><input type="radio" name="logro-19" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-19" value="A">A</label>
-                            <label><input type="radio" name="proceso-19" value="B">B</label>
-                            <label><input type="radio" name="proceso-19" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-19" value="A">A</label>
-                            <label><input type="radio" name="inicio-19" value="B">B</label>
-                            <label><input type="radio" name="inicio-19" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 20 -->
                 <tr>
                     <td>20 - TABOADA CARDENAS SOFIA SCARLETT</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-20" value="A">A</label>
-                            <label><input type="radio" name="logro-20" value="B">B</label>
-                            <label><input type="radio" name="logro-20" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-20" value="A">A</label>
-                            <label><input type="radio" name="proceso-20" value="B">B</label>
-                            <label><input type="radio" name="proceso-20" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-20" value="A">A</label>
-                            <label><input type="radio" name="inicio-20" value="B">B</label>
-                            <label><input type="radio" name="inicio-20" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 21 -->
                 <tr>
                     <td>21 - VARGAS SANTA CRUZ YHOMIRA HARLEY</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-21" value="A">A</label>
-                            <label><input type="radio" name="logro-21" value="B">B</label>
-                            <label><input type="radio" name="logro-21" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-21" value="A">A</label>
-                            <label><input type="radio" name="proceso-21" value="B">B</label>
-                            <label><input type="radio" name="proceso-21" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-21" value="A">A</label>
-                            <label><input type="radio" name="inicio-21" value="B">B</label>
-                            <label><input type="radio" name="inicio-21" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 22 -->
                 <tr>
                     <td>22 - VASQUEZ DE LA CRUZ JHEICKO ALEXIO</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-22" value="A">A</label>
-                            <label><input type="radio" name="logro-22" value="B">B</label>
-                            <label><input type="radio" name="logro-22" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-22" value="A">A</label>
-                            <label><input type="radio" name="proceso-22" value="B">B</label>
-                            <label><input type="radio" name="proceso-22" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-22" value="A">A</label>
-                            <label><input type="radio" name="inicio-22" value="B">B</label>
-                            <label><input type="radio" name="inicio-22" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 23 -->
                 <tr>
                     <td>23 - VELASQUEZ SINCHE AISLINN ARLETTE</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-23" value="A">A</label>
-                            <label><input type="radio" name="logro-23" value="B">B</label>
-                            <label><input type="radio" name="logro-23" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-23" value="A">A</label>
-                            <label><input type="radio" name="proceso-23" value="B">B</label>
-                            <label><input type="radio" name="proceso-23" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-23" value="A">A</label>
-                            <label><input type="radio" name="inicio-23" value="B">B</label>
-                            <label><input type="radio" name="inicio-23" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
 
                 <!-- Estudiante 24 -->
                 <tr>
                     <td>24 - LEON GUERRERO MILETH VALENTINA</td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="logro-24" value="A">A</label>
-                            <label><input type="radio" name="logro-24" value="B">B</label>
-                            <label><input type="radio" name="logro-24" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="proceso-24" value="A">A</label>
-                            <label><input type="radio" name="proceso-24" value="B">B</label>
-                            <label><input type="radio" name="proceso-24" value="C">C</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="radio-group">
-                            <label><input type="radio" name="inicio-24" value="A">A</label>
-                            <label><input type="radio" name="inicio-24" value="B">B</label>
-                            <label><input type="radio" name="inicio-24" value="C">C</label>
-                        </div>
-                    </td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="C"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="B"></td>
+                    <td><input type="checkbox" class="column-checkbox" data-column="A"></td>
                 </tr>
             </tbody>
         </table>
@@ -901,6 +483,13 @@
 
 
 <script>
+    flatpickr(".fecha-selector", {
+        dateFormat: "d-m-Y",
+        locale: "es",
+        allowInput: true,
+        defaultDate: "today",
+    });
+
     async function exportToExcel() {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Evaluación');
@@ -915,10 +504,10 @@
                     }
 
                     // Obtener valor de radio buttons
-                    const radios = cell.querySelectorAll('input[type="radio"]');
-                    if (radios.length > 0) {
-                        const checked = Array.from(radios).find(radio => radio.checked);
-                        return checked ? checked.value.toUpperCase() : '';
+                    // Nueva lógica para checkboxes en el script
+                    const checkbox = cell.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        return checkbox.checked ? checkbox.dataset.column.toUpperCase() : '';
                     }
 
                     // Obtener valor de textareas
@@ -980,7 +569,11 @@
 
         // Ajustar anchos de columnas
         worksheet.columns.forEach((column, index) => {
-            column.width = textareaColumns.has(index) ? 50 : 20;
+            if (index === 0) {
+                column.width = 60; // Ancho aumentado para columna de estudiantes
+            } else {
+                column.width = textareaColumns.has(index) ? 50 : 20;
+            }
         });
 
         // Generar archivo
